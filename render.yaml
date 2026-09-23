@@ -1,0 +1,31 @@
+services:
+  - type: web
+    name: advanced-discord-bot-api
+    env: node
+    buildCommand: npm install
+    startCommand: node src/server.js
+    envVars:
+      - key: NODE_VERSION
+        value: 18
+      - key: PORT
+        value: 3000
+    # You will need to add other env vars (DISCORD_TOKEN, CLIENT_ID, etc.) in the Render Dashboard
+
+  - type: worker
+    name: advanced-discord-bot-worker
+    env: node
+    buildCommand: npm install
+    startCommand: node src/bot.js
+    envVars:
+      - key: NODE_VERSION
+        value: 18
+    # You will need to add other env vars (DISCORD_TOKEN, CLIENT_ID, etc.) in the Render Dashboard
+
+  - type: web
+    name: advanced-discord-bot-dashboard
+    env: static
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./dist
+    envVars:
+      - key: NODE_VERSION
+        value: 18
