@@ -22,7 +22,7 @@ module.exports = {
         await interaction.deferReply();
 
         const shoukaku = getShoukaku();
-        const node = shoukaku.getNode();
+        const node = shoukaku.getIdealNode();
         
         if (!node) {
             return interaction.editReply('Lavalink node is not connected!');
