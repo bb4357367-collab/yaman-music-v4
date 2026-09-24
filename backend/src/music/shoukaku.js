@@ -5,7 +5,8 @@ let shoukaku;
 const Nodes = [{
     name: 'Main',
     url: `${process.env.LAVALINK_HOST || 'localhost'}:${process.env.LAVALINK_PORT || 2333}`,
-    auth: process.env.LAVALINK_PASSWORD || 'youshallnotpass'
+    auth: process.env.LAVALINK_PASSWORD || 'youshallnotpass',
+    secure: process.env.LAVALINK_SECURE === 'true'
 }];
 
 function initShoukaku(client) {
