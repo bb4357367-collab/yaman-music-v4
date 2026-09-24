@@ -1,4 +1,5 @@
 const { Events } = require('discord.js');
+const mongoose = require('mongoose');
 const Guild = require('../models/Guild');
 
 module.exports = {
@@ -14,12 +15,17 @@ module.exports = {
         }
 
         try {
-            // Fetch or create guild settings
             let guildSettings = null;
-            if (interaction.guildId) {
-                guildSettings = await Guild.findOne({ guildId: interaction.guildId });
-                if (!guildSettings) {
-                    guildSettings = await Guild.create({ guildId: interaction.guildId });
+            
+            // Only try to fetch from MongoDB if the database is actually connected (readyState === 1)
+            if (interaction.guildId && mongoose.connection.readyState === 1) {
+                try {
+                    guildSettings = await Guild.findOne({ guildId: interaction.guildId });
+                    if (!guildSettings) {
+                        guildSettings = await Guild.create({ guildId: interaction.guildId });
+                    }
+                } catch (dbError) {
+                    console.error('[DB] Error fetching guild settings, proceeding with default settings:', dbError.message);
                 }
             }
 
