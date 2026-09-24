@@ -4,9 +4,9 @@ let shoukaku;
 
 const Nodes = [{
     name: 'Main',
-    url: `${process.env.LAVALINK_HOST || 'localhost'}:${process.env.LAVALINK_PORT || 2333}`,
-    auth: process.env.LAVALINK_PASSWORD || 'youshallnotpass',
-    secure: process.env.LAVALINK_SECURE === 'true'
+    url: 'lava-v4.ajieblogs.eu.org:443',
+    auth: 'https://dsc.gg/ajidevserver',
+    secure: true
 }];
 
 function initShoukaku(client) {
