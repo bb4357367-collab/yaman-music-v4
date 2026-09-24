@@ -1,6 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js');
-const { getQueue, deleteQueue } = require('../music/queue');
-const { getShoukaku } = require('../music/shoukaku');
+const { SlashCommandBuilder, useQueue } = require('discord-player');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -8,16 +6,13 @@ module.exports = {
         .setDescription('Stop the music and clear the queue.'),
     
     async execute(interaction) {
-        const queue = getQueue(interaction.guildId);
+        const queue = useQueue(interaction.guildId);
 
-        if (!queue.player) {
+        if (!queue) {
             return interaction.reply({ content: 'There is no music playing right now!', ephemeral: true });
         }
 
-        queue.tracks = []; // clear queue
-        await getShoukaku().leaveVoiceChannel(interaction.guildId);
-        deleteQueue(interaction.guildId);
-
-        await interaction.reply('🛑 Stopped the music and cleared the queue. See you next time!');
+        queue.delete();
+        await interaction.reply('🛑 Stopped the music and left the voice channel!');
     },
 };

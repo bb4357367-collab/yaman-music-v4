@@ -1,5 +1,6 @@
 const { Events } = require('discord.js');
-const { initShoukaku } = require('../music/shoukaku');
+const { Player } = require('discord-player');
+const { DefaultExtractors } = require('@discord-player/extractor');
 
 module.exports = {
     name: Events.ClientReady,
@@ -8,7 +9,9 @@ module.exports = {
         console.log(`[Bot] Ready! Logged in as ${client.user.tag}`);
         
         // Initialize Music System
-        initShoukaku(client);
+        const player = new Player(client);
+        await player.extractors.loadMulti(DefaultExtractors);
+        client.player = player;
 
         // Register slash commands (for development, register globally or to a specific guild)
         try {

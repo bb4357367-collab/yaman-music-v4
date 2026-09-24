@@ -1,5 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js');
-const { getQueue } = require('../music/queue');
+const { SlashCommandBuilder, useQueue } = require('discord-player');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -7,14 +6,13 @@ module.exports = {
         .setDescription('Skip the currently playing song.'),
     
     async execute(interaction) {
-        const queue = getQueue(interaction.guildId);
+        const queue = useQueue(interaction.guildId);
 
-        if (!queue.player || !queue.current) {
+        if (!queue || !queue.currentTrack) {
             return interaction.reply({ content: 'There is no music playing right now!', ephemeral: true });
         }
 
-        // Stop the current track, which will trigger the 'end' event and play the next one
-        await queue.player.stopTrack();
+        queue.node.skip();
         await interaction.reply('⏭️ Skipped the current song!');
     },
 };
